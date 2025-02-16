@@ -1,0 +1,31 @@
+
+h1{
+    font: times;
+    color: aquamarine;
+    background-position: center;
+    background-color: blueviolet;
+}
+body{
+    background-color: gray;
+}
+table{
+    width: 30%;
+}
+caption{
+    color: aquamarine;
+    font-weight: bolder;
+    font-size: 30px;
+}
+th{
+    background-color: black;
+    color: whitesmoke;
+}
+td{
+    background-color: aquamarine;
+}
+.informacao{
+    color: aqua;
+}
+.info{
+    color: red;
+}

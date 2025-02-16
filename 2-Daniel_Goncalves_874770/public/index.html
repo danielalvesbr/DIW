@@ -1,0 +1,333 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Míster Watch</title>
+  <link rel="stylesheet" href="assets/css/styles.css">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+</head>
+
+<body class="bg-dark text-light">
+
+  <!-- Cabeçalho -->
+  <header class="bg-secondary p-3">
+    <div class="container d-flex justify-content-between align-items-center">
+      <img src="assets/img/logo.png" alt="Logo" class="logo">
+      <a href="explorer.html" class="btn btn-outline-light">Explorar</a>
+    </div>
+  </header>
+
+  <!-- Conteúdo Principal -->
+  <main class="container mt-5">
+    <!-- Carrossel -->
+    <section id="carrossel" class="mt-5">
+      <h2 class="text-light">Destaques</h2>
+      <hr class="mb-4 border-light">
+      <div id="carouselExampleIndicators" class="carousel slide" data-bs-ride="carousel">
+        <div class="carousel-indicators" id="carousel-indicators"></div>
+        <div class="carousel-inner" id="carousel-inner"></div>
+        <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleIndicators"
+          data-bs-slide="prev">
+          <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+          <span class="visually-hidden">Anterior</span>
+        </button>
+        <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleIndicators"
+          data-bs-slide="next">
+          <span class="carousel-control-next-icon" aria-hidden="true"></span>
+          <span class="visually-hidden">Próximo</span>
+        </button>
+      </div>
+    </section>
+
+    <!-- Séries Populares -->
+    <section id="series-populares" class="mt-5">
+      <h2 class="text-light">+ Populares</h2>
+      <hr class="mb-4 border-light">
+      <div class="row" id="series-container">
+        <!-- Séries inseridas via JS -->
+      </div>
+    </section>
+
+    <section id="top-rated" class="mt-5">
+      <h2 class="text-light">+ Bem Avaliados</h2>
+      <hr class="mb-4 border-light">
+      <div class="row" id="top-rated-container">
+        <!-- Séries mais bem avaliadas inseridas via JS -->
+      </div>
+    </section>
+
+   <!-- Informações sobre o Aluno -->
+<section id="info-aluno" class="mt-5 text-center">
+  <h2 class="text-light">Informações sobre o Aluno</h2>
+  <hr class="mb-4 border-light">
+  <div class="d-flex justify-content-center align-items-center flex-column">
+    <img src="assets/img/puc-minas-logo.jpg" alt="Daniel Alves Gonçalves" class="img-fluid mb-4" style="max-width: 300px; height: auto;">
+    <p class="text-light w-75 mx-auto">Este site foi desenvolvido por Daniel Alves Gonçalves, estudante de Ciência da Computação na PUC-MINAS. Apaixonado por tecnologia, Daniel busca criar interfaces intuitivas e agradáveis aos usuários.</p>
+  </div>
+  <div class="mt-4">
+    <h4 class="text-info">Autoria</h4>
+    <div class="d-flex justify-content-center align-items-center flex-column flex-md-row mt-3">
+      <img src="assets/img/aluno.png" alt="Foto do Aluno" class="img-fluid rounded-circle mb-3 mb-md-0"
+        style="width: 150px; height: 150px; object-fit: cover; margin-right: px;">
+      <div class="text-light">
+        <p><strong>Nome:</strong> Daniel Alves Gonçalves</p>
+        <p><strong>Curso:</strong> Ciência da Computação</p>
+        <p><strong>Turma:</strong> Tarde - 2024/2</p>
+      </div>
+    </div>
+  </div>
+  <div class="mt-4">
+    <h5 class="text-info">Redes Sociais:</h5>
+    <div>
+      <a href="https://www.facebook.com/profile.php?id=100009574484267&locale=pt_BR" class="mx-3" target="_blank">
+        <img src="assets/img/facebook.png" alt="Facebook" class="social-icon" style="width: 40px;">
+      </a>
+      <a href="https://www.instagram.com/danielalves.br/" class="mx-3" target="_blank">
+        <img src="assets/img/instagram.png" alt="Instagram" class="social-icon" style="width: 40px;">
+      </a>
+    </div>
+  </div>
+</section>
+
+
+
+    <!-- Favoritos -->
+    <section id="favoritos" class="mt-5">
+      <h2 class="text-light">Favoritos</h2>
+      <hr class="mb-4 border-light">
+      <div class="row" id="favoritos-container">
+        <p class="text-light">Nenhuma série foi favoritada ainda.</p>
+      </div>
+    </section>
+  </main>
+
+  <footer class="text-center mt-5 p-3 bg-secondary">
+    <p>&copy; 2024 Daniel Alves Gonçalves</p>
+  </footer>
+
+  <!-- Scripts -->
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+  <script src="assets/js/localStorage.js"></script> <!-- Carregar primeiro -->
+  <script src="assets/js/scripts.js"></script> <!-- Carregar depois -->
+  <script>
+    const API_KEY = '6c073b72496b606e0689105734c4dd4c';
+    const BASE_URL = 'https://api.themoviedb.org/3';
+    const favoritosKey = 'favoritos';
+    const favoritosContainer = document.getElementById('favoritos-container');
+
+    // Inicializar favoritos do localStorage
+    function getFavoritos() {
+      return JSON.parse(localStorage.getItem(favoritosKey)) || [];
+    }
+
+    function setFavoritos(favoritos) {
+      localStorage.setItem(favoritosKey, JSON.stringify(favoritos));
+    }
+    
+    // Atualizar favoritos
+    function atualizarFavoritos() {
+      const favoritos = getFavoritos();
+      favoritosContainer.innerHTML = ''; // Limpa o conteúdo atual
+      if (favoritos.length === 0) {
+        favoritosContainer.innerHTML = '<p class="text-light">Nenhuma série foi favoritada ainda.</p>';
+        return;
+      }
+      favoritos.forEach(fav => {
+        favoritosContainer.innerHTML += `
+            <div class="col-md-3">
+                <div class="card bg-secondary text-light">
+                    <img src="https://image.tmdb.org/t/p/w500${fav.posterPath}" class="card-img-top" alt="${fav.name}">
+                    <div class="card-body">
+                        <h5 class="card-title">${fav.name}</h5>
+                        <a href="serie.html?id=${fav.id}" class="btn btn-outline-light">Ver Detalhes</a>
+                        <button class="btn btn-danger btn-remove-favorito" data-id="${fav.id}">Remover dos Favoritos</button>
+                    </div>
+                </div>
+            </div>`;
+      });
+
+      // Adicionar evento de remoção para os botões "Remover dos Favoritos"
+      document.querySelectorAll('.btn-remove-favorito').forEach(button => {
+        button.addEventListener('click', () => {
+          const id = button.dataset.id;
+          removerFavorito(id);
+        });
+      });
+    }
+
+    // Favoritar ou desfavoritar
+    function toggleFavorito(id, name, posterPath) {
+      const favoritos = getFavoritos();
+      const index = favoritos.findIndex(fav => fav.id === id);
+      if (index >= 0) {
+        favoritos.splice(index, 1); // Remover dos favoritos
+      } else {
+        favoritos.push({ id, name, posterPath }); // Adicionar aos favoritos
+      }
+      setFavoritos(favoritos); // Atualiza o localStorage
+      atualizarFavoritos(); // Atualiza a lista de favoritos na tela
+      atualizarBotoesFavorito(); // Atualiza os botões de favoritar/desfavoritar
+    }
+
+    // Função para atualizar os botões de favoritar
+function atualizarBotoesFavorito() {
+  const favoritos = getFavoritos(); // Pega os favoritos do localStorage
+  document.querySelectorAll('.btn-favoritar').forEach(button => {
+    const id = button.dataset.id;
+    const isFavorited = favoritos.some(fav => fav.id === id); // Verifica se já está nos favoritos
+
+    // Muda o texto e as classes de estilo do botão
+    button.textContent = isFavorited ? 'Desfavoritar' : 'Favoritar';
+    button.classList.toggle('btn-warning', !isFavorited);
+    button.classList.toggle('btn-danger', isFavorited);
+  });
+}
+
+
+    // Carregar filmes populares
+    async function fetchPopularMovies() {
+      const response = await fetch(`${BASE_URL}/movie/popular?api_key=${API_KEY}&language=pt-BR`);
+      const data = await response.json();
+      return data.results.slice(0, 6); // Limitar para 6 filmes
+    }
+
+    function displayMovies(movies) {
+      const container = document.getElementById('series-container');
+      container.innerHTML = ''; // Limpar conteúdo anterior
+
+      // Limitar a 6 filmes, caso o array seja maior que isso
+      const limitedMovies = movies.slice(0, 6);
+
+      limitedMovies.forEach(movie => {
+        const card = `
+            <div class="col-md-4">
+                <div class="card bg-secondary text-light">
+                    <img src="https://image.tmdb.org/t/p/w500${movie.poster_path}" class="card-img-top" alt="${movie.title}">
+                    <div class="card-body">
+                        <h5 class="card-title">${movie.title}</h5>
+                        <button class="btn btn-warning btn-favoritar" 
+                            data-id="${movie.id}" 
+                            data-name="${movie.title}" 
+                            data-poster="${movie.poster_path}">
+                            Favoritar
+                        </button>
+                    </div>
+                </div>
+            </div>`;
+        container.innerHTML += card;
+      });
+
+      document.querySelectorAll('.btn-favoritar').forEach(button => {
+        button.addEventListener('click', () => {
+          const id = button.dataset.id;
+          const name = button.dataset.name;
+          const posterPath = button.dataset.poster;
+          toggleFavorito(id, name, posterPath);
+        });
+      });
+
+      // Atualizar botões de favorito
+      atualizarBotoesFavorito();
+    }
+
+    // Carregar filmes populares ao carregar a página
+    document.addEventListener('DOMContentLoaded', async () => {
+      // Carregar filmes populares
+      const movies = await fetchPopularMovies();
+      displayMovies(movies);
+      atualizarFavoritos(); // Atualiza os favoritos ao carregar a página
+    });
+
+    
+    // Remover um favorito do localStorage
+    function removerFavorito(id) {
+      const favoritos = getFavoritos();  // Pega os favoritos
+      const novosFavoritos = favoritos.filter(fav => fav.id !== id);  // Filtra para remover o favorito com o id fornecido
+      setFavoritos(novosFavoritos);  // Atualiza o localStorage
+      atualizarFavoritos();  // Atualiza a lista de favoritos na tela
+      atualizarBotoesFavorito();  // Atualiza os botões de favoritar
+    }
+
+    // Carrossel de Filmes Populares
+    async function fetchMoviesForCarousel() {
+      const response = await fetch(`${BASE_URL}/movie/popular?api_key=${API_KEY}&language=pt-BR`);
+      const data = await response.json();
+      return data.results.slice(0, 6); // Pegue apenas os primeiros 6 filmes populares
+    }
+    
+    function displayCarouselMovies(movies) {
+      const indicators = document.getElementById('carousel-indicators');
+      const inner = document.getElementById('carousel-inner');
+
+      movies.forEach((movie, index) => {
+        // Indicadores
+        indicators.innerHTML += `
+                    <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="${index}" 
+                        class="${index === 0 ? 'active' : ''}" aria-current="${index === 0 ? 'true' : ''}" 
+                        aria-label="Slide ${index + 1}"></button>`;
+
+        // Slides
+        inner.innerHTML += `
+                    <div class="carousel-item ${index === 0 ? 'active' : ''}">
+                        <img src="https://image.tmdb.org/t/p/w1280${movie.backdrop_path}" class="d-block w-100" alt="${movie.title}">
+                        <div class="carousel-caption d-none d-md-block">
+                            <h5>${movie.title}</h5>
+                            <p>${movie.overview}</p>
+                        </div>
+                    </div>`;
+      });
+    }
+
+    // Função para buscar séries mais bem avaliadas
+    async function fetchTopRatedSeries() {
+      const response = await fetch(`${BASE_URL}/tv/top_rated?api_key=${API_KEY}&language=pt-BR`);
+      const data = await response.json();
+      return data.results.slice(0, 6); // Limitar para 6 séries
+    }
+
+    // Função para exibir séries mais bem avaliadas
+    function displayTopRatedSeries(series) {
+      const container = document.getElementById('top-rated-container');
+      container.innerHTML = ''; // Limpar conteúdo anterior
+
+      series.forEach(serie => {
+        const card = `
+      <div class="col-md-4">
+        <div class="card bg-secondary text-light">
+          <img src="https://image.tmdb.org/t/p/w500${serie.poster_path}" class="card-img-top" alt="${serie.name}">
+          <div class="card-body">
+            <h5 class="card-title">${serie.name}</h5>
+            <p class="card-text">${serie.overview.slice(0, 100)}...</p>
+            <a href="serie.html?id=${serie.id}" class="btn btn-outline-light">Ver Detalhes</a>
+          </div>
+        </div>
+      </div>`;
+        container.innerHTML += card;
+      });
+    }
+
+    // Adiciona eventos para botões de remover
+    document.querySelectorAll('.btn-remove-favorito').forEach(button => {
+        button.addEventListener('click', () => removerFavorito(button.dataset.id));
+      });
+    
+
+
+    document.addEventListener('DOMContentLoaded', async () => {
+      // Buscar filmes mais bem avaliados
+      const topRatedSeries = await fetchTopRatedSeries();
+      displayTopRatedSeries(topRatedSeries);
+      // Carregar carrossel e séries
+      const movies = await fetchMoviesForCarousel();
+      displayCarouselMovies(movies);
+      const series = await fetchPopularSeries();
+      displaySeries(series);
+      atualizarFavoritos();
+    });
+  </script>
+</body>
+
+</html>

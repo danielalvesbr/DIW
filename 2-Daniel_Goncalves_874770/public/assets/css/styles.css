@@ -1,0 +1,318 @@
+/* Resetando margens e paddings padrões */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+/* Estilo do Corpo e Fundo */
+body {
+  background-color: #121212;
+  color: #ffffff;
+  font-family: Arial, sans-serif;
+}
+
+/* Estilos do Cabeçalho */
+header {
+  background-color: #333;
+  padding: 10px 0;
+}
+
+header .logo {
+  width: 100px;
+  height: auto;
+}
+
+header .btn {
+  border-radius: 0;
+  padding: 10px 20px;
+}
+
+/* Estilo para os Detalhes da Série */
+#serie-details {
+  margin-top: 50px;
+  display: flex;
+  justify-content: center;
+  padding: 20px;
+}
+
+#serie-details h2 {
+  font-size: 2.5rem;
+  text-align: center;
+  color: #ff6f61;
+  margin-bottom: 30px;
+}
+
+#details-container {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 20px;
+  align-items: center;
+  background-color: #222;
+  padding: 30px;
+  border-radius: 10px;
+  border: 3px solid #ff6f61;
+  max-width: 80%; /* Ajusta o bloco para ocupar 80% da largura da página */
+  margin: auto;
+}
+
+#details-container .col-md-4 img {
+  max-height: 500px;
+  width: auto;
+  object-fit: cover;
+  border-radius: 10px;
+  box-shadow: 0 0 15px rgba(255, 111, 97, 0.7);
+}
+
+#details-container .col-md-8 {
+  flex: 1;
+}
+
+#details-container .col-md-8 h3 {
+  font-size: 2.5rem;
+  margin-bottom: 20px;
+  color: #ff6f61;
+}
+
+#details-container .col-md-8 p.lead {
+  font-size: 1.3rem;
+  color: #b0b0b0;
+  margin-bottom: 20px;
+}
+
+#details-container .list-unstyled li {
+  font-size: 1.2rem;
+  margin-bottom: 10px;
+  color: #f0f0f0;
+}
+
+#details-container .btn-outline-light {
+  font-weight: bold;
+  border-radius: 5px;
+  padding: 10px 20px;
+}
+
+#details-container .btn-outline-light:hover {
+  background-color: #ff6f61;
+  border-color: #ff6f61;
+  color: white;
+}
+
+/* Estilo para as Séries Populares */
+#series-populares {
+  margin-top: 50px;
+}
+
+#series-container {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 20px;
+}
+
+#series-container .col-md-4 {
+  flex: 1 1 calc(33.333% - 20px);
+  max-width: calc(33.333% - 20px);
+  margin-bottom: 20px;
+}
+
+.card {
+  background-color: #333;
+  border: none;
+  border-radius: 8px;
+}
+
+.card img {
+  border-radius: 8px;
+}
+
+.card-body {
+  padding: 15px;
+}
+
+.card-title {
+  font-size: 1.2rem;
+  margin-bottom: 10px;
+}
+
+.card .btn {
+  background-color: #ff6f61;
+  color: #fff;
+  border-radius: 0;
+  width: 100%;
+  font-weight: bold;
+}
+
+.card .btn:hover {
+  background-color: #e85a4f;
+}
+
+/* Botões de Favoritar */
+.btn-warning {
+  background-color: #ffcc00;
+  border-color: #ffcc00;
+}
+
+.btn-danger {
+  background-color: #e85a4f;
+  border-color: #e85a4f;
+}
+
+.btn-warning:hover,
+.btn-danger:hover {
+  opacity: 0.8;
+}
+
+/* Favoritos */
+#favoritos-container {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 20px;
+}
+
+#favoritos-container .col-md-3 {
+  flex: 1 1 calc(25% - 20px);
+  max-width: calc(25% - 20px);
+  margin-bottom: 20px;
+}
+
+footer {
+  background-color: #333;
+  padding: 10px;
+  color: #fff;
+}
+
+footer p {
+  margin: 0;
+}
+
+/* Ajuste para telas menores */
+@media (max-width: 768px) {
+  #series-container .col-md-4 {
+      flex: 1 1 calc(50% - 20px);
+      max-width: calc(50% - 20px);
+  }
+
+  #favoritos-container .col-md-3 {
+      flex: 1 1 calc(50% - 20px);
+      max-width: calc(50% - 20px);
+  }
+
+  .carousel-inner img {
+      height: 300px;
+  }
+
+  #details-container .col-md-4 img {
+    max-height: 350px;
+  }
+
+  #details-container .col-md-8 h3 {
+    font-size: 2rem;
+  }
+
+  #details-container .col-md-8 p.lead {
+    font-size: 1.1rem;
+  }
+
+  #details-container .list-unstyled li {
+    font-size: 1rem;
+  }
+}
+
+@media (max-width: 480px) {
+  #series-container .col-md-4,
+  #favoritos-container .col-md-3 {
+      flex: 1 1 100%;
+      max-width: 100%;
+  }
+
+  .carousel-inner img {
+      height: 250px;
+  }
+
+  .card-title {
+      font-size: 1rem;
+  }
+
+  #details-container .col-md-4 img {
+    max-height: 250px;
+  }
+
+  #details-container .col-md-8 h3 {
+    font-size: 1.6rem;
+  }
+
+  #details-container .col-md-8 p.lead {
+    font-size: 1rem;
+  }
+
+  #details-container .list-unstyled li {
+    font-size: 1rem;
+  }
+
+  /* Estilos para a página de detalhes da série */
+.serie-page {
+    font-family: 'Arial', sans-serif;
+    color: #fff;
+}
+
+.serie-page #details-container {
+    background-color: #333;
+    border-radius: 15px;
+    padding: 30px;
+    margin-top: 50px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.5);
+}
+
+.serie-page #details-container img {
+    max-width: 100%;
+    border-radius: 10px;
+}
+
+.serie-page .display-4 {
+    font-size: 3rem;
+    font-weight: bold;
+    margin-bottom: 20px;
+}
+
+.serie-page .lead {
+    font-size: 1.25rem;
+    margin-bottom: 20px;
+}
+
+.serie-page .btn-outline-light {
+    border-color: #fff;
+    color: #fff;
+}
+
+.serie-page .btn-outline-light:hover {
+    background-color: #fff;
+    color: #121212;
+}
+
+.serie-page .row {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.serie-page .col-md-4 {
+    flex: 1;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.serie-page .col-md-8 {
+    flex: 2;
+}
+
+/* Estilo exclusivo para o título "Detalhes da Série" */
+.serie-page .serie-title {
+  font-size: 3rem;              /* Tamanho do título */
+  font-weight: bold;            /* Negrito */
+  color: #ff6f61;               /* Cor do título */
+  margin-top: 50px;             /* Espaçamento superior */
+  margin-bottom: 30px;          /* Espaçamento inferior */
+  text-align: center;           /* Alinhar ao centro */
+}
+}

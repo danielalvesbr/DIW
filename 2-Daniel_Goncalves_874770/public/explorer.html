@@ -1,0 +1,239 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Míster Séries</title>
+    <link rel="stylesheet" href="assets/css/styles.css">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+</head>
+
+<body class="bg-dark text-light">
+
+    <!-- Cabeçalho -->
+    <header class="bg-secondary p-3">
+        <div class="container d-flex justify-content-between align-items-center">
+            <a href="index.html">
+                <img src="assets/img/logo.png" alt="Logo do Site" class="logo">
+            </a>
+        </div>
+    </header>
+
+    <!-- Conteúdo Principal -->
+    <main class="container mt-5">
+        <!-- Barra de Pesquisa -->
+        <section id="pesquisa">
+            <input type="text" id="pesquisar" class="form-control" placeholder="Pesquisar séries..."
+                oninput="pesquisarSeries()">
+        </section>
+
+        <!-- Séries Populares -->
+        <section id="series-populares">
+            <h2 class="text-light">Feito Para Você</h2>
+            <hr class="mb-4 border-light">
+            <div class="row" id="series-container">
+                <!-- Séries inseridas via JS -->
+            </div>
+        </section>
+
+        <!-- Favoritos -->
+        <section id="favoritos" class="mt-5">
+            <h2 class="text-light">Favoritos</h2>
+            <hr class="mb-4 border-light">
+            <div class="row" id="favoritos-container">
+                <p class="text-light">Nenhuma série foi favoritada ainda.</p>
+            </div>
+        </section>
+
+        <!-- Informações sobre o Aluno -->
+<section id="info-aluno" class="mt-5 text-center">
+    <h2 class="text-light">Informações sobre o Aluno</h2>
+    <hr class="mb-4 border-light">
+    <div class="d-flex justify-content-center align-items-center flex-column">
+      <img src="assets/img/puc-minas-logo.jpg" alt="Daniel Alves Gonçalves" class="img-fluid mb-4" style="max-width: 300px; height: auto;">
+      <p class="text-light w-75 mx-auto">Este site foi desenvolvido por Daniel Alves Gonçalves, estudante de Ciência da Computação na PUC-MINAS. Apaixonado por tecnologia, Daniel busca criar interfaces intuitivas e agradáveis aos usuários.</p>
+    </div>
+    <div class="mt-4">
+      <h4 class="text-info">Autoria</h4>
+      <div class="d-flex justify-content-center align-items-center flex-column flex-md-row mt-3">
+        <img src="assets/img/aluno.png" alt="Foto do Aluno" class="img-fluid rounded-circle mb-3 mb-md-0"
+          style="width: 150px; height: 150px; object-fit: cover; margin-right: px;">
+        <div class="text-light">
+          <p><strong>Nome:</strong> Daniel Alves Gonçalves</p>
+          <p><strong>Curso:</strong> Ciência da Computação</p>
+          <p><strong>Turma:</strong> Tarde - 2024/2</p>
+        </div>
+      </div>
+    </div>
+    <div class="mt-4">
+      <h5 class="text-info">Redes Sociais:</h5>
+      <div>
+        <a href="https://www.facebook.com/profile.php?id=100009574484267&locale=pt_BR" class="mx-3" target="_blank">
+          <img src="assets/img/facebook.png" alt="Facebook" class="social-icon" style="width: 40px;">
+        </a>
+        <a href="https://www.instagram.com/danielalves.br/" class="mx-3" target="_blank">
+          <img src="assets/img/instagram.png" alt="Instagram" class="social-icon" style="width: 40px;">
+        </a>
+      </div>
+    </div>
+  </section>
+    </main>
+
+    <footer class="text-center mt-5 p-3 bg-secondary">
+        <p>&copy; 2024 Daniel Alves Gonçalves</p>
+    </footer>
+
+    <script>
+        const API_KEY = '6c073b72496b606e0689105734c4dd4c';
+        const BASE_URL = 'https://api.themoviedb.org/3';
+        const favoritosContainer = document.getElementById('favoritos-container');
+        const seriesContainer = document.getElementById('series-container');
+        const pesquisarInput = document.getElementById('pesquisar');
+        const generoSelect = document.getElementById('genero');
+        const popularidadeSelect = document.getElementById('popularidade');
+
+        // Carregar favoritos do localStorage
+        let favoritos = JSON.parse(localStorage.getItem('favoritos')) || [];
+
+        // Função para buscar séries populares
+        async function fetchPopularSeries() {
+            const response = await fetch(`${BASE_URL}/tv/popular?api_key=${API_KEY}&language=pt-BR`);
+            const data = await response.json();
+            return data.results;
+        }
+
+        // Função para exibir as séries
+        function displaySeries(series) {
+            seriesContainer.innerHTML = ''; // Limpa a lista de séries exibidas
+            series.forEach(serie => {
+                const card = `
+                    <div class="col-md-4">
+                        <div class="card bg-secondary text-light">
+                            <img src="https://image.tmdb.org/t/p/w500${serie.poster_path}" class="card-img-top" alt="${serie.name}">
+                            <div class="card-body">
+                                <h5 class="card-title">${serie.name}</h5>
+                                <a href="serie.html?id=${serie.id}" class="btn btn-outline-light">Saiba Mais</a>
+                                <button class="btn btn-outline-warning mt-2" onclick="adicionarAosFavoritos('${serie.id}', '${serie.name}', '${serie.poster_path}')">Favoritar</button>
+                            </div>
+                        </div>
+                    </div>`;
+                seriesContainer.innerHTML += card;
+            });
+        }
+
+        // Função para adicionar aos favoritos
+        function adicionarAosFavoritos(id, name, posterPath) {
+            if (favoritos.some(fav => fav.id === id)) {
+                alert("Série já está nos favoritos!");
+                return;
+            }
+
+            favoritos.push({ id, name, posterPath });
+            atualizarFavoritos();
+            // Salvar no localStorage
+            localStorage.setItem('favoritos', JSON.stringify(favoritos));
+        }
+
+        // Atualizar a seção de favoritos
+        function atualizarFavoritos() {
+            favoritosContainer.innerHTML = '';
+            if (favoritos.length === 0) {
+                favoritosContainer.innerHTML = '<p class="text-light">Nenhuma série foi favoritada ainda.</p>';
+                return;
+            }
+
+            favoritos.forEach(fav => {
+                const favoritoCard = `
+                    <div class="col-md-3">
+                        <div class="card bg-secondary text-light">
+                            <img src="https://image.tmdb.org/t/p/w500${fav.posterPath}" class="card-img-top" alt="${fav.name}">
+                            <div class="card-body">
+                                <h5 class="card-title">${fav.name}</h5>
+                                <a href="serie.html?id=${fav.id}" class="btn btn-outline-light">Ver Detalhes</a>
+                                <!-- Botão para desfavoritar -->
+                                <button class="btn btn-outline-danger mt-2" onclick="removerDosFavoritos('${fav.id}')">Desfavoritar</button>
+                            </div>
+                        </div>
+                    </div>`;
+                favoritosContainer.innerHTML += favoritoCard;
+            });
+        }
+
+        // Função para remover dos favoritos
+        function removerDosFavoritos(id) {
+            // Filtra a série removendo a série com o id especificado
+            favoritos = favoritos.filter(fav => fav.id !== id);
+
+            // Atualizar o localStorage com a nova lista de favoritos
+            localStorage.setItem('favoritos', JSON.stringify(favoritos));
+
+            // Atualizar a seção de favoritos na página
+            atualizarFavoritos();
+        }
+
+        // Função para aplicar filtros
+        function aplicarFiltros() {
+    const genero = generoSelect.value;
+    const popularidade = popularidadeSelect.value;
+
+    // Construir a URL base para as séries filtradas
+    let url = `${BASE_URL}/discover/tv?api_key=${API_KEY}&language=pt-BR`;
+
+    // Adicionar filtro de gênero se selecionado
+    if (genero) {
+        url += `&with_genres=${genero}`;
+    }
+
+    // Adicionar filtro de popularidade se selecionado
+    if (popularidade) {
+        url += `&sort_by=popularity.${popularidade}`;
+    }
+
+    console.log("URL Gerada para Filtros:", url); // Para depuração
+
+    // Fazer a requisição para a API
+    fetch(url)
+        .then(response => {
+            if (!response.ok) {
+                throw new Error('Erro ao buscar séries com filtros.');
+            }
+            return response.json();
+        })
+        .then(data => {
+            if (data.results && data.results.length > 0) {
+                displaySeries(data.results); // Exibir as séries filtradas
+            } else {
+                seriesContainer.innerHTML = `<p class="text-light">Nenhuma série encontrada com os filtros selecionados.</p>`;
+            }
+        })
+        .catch(error => {
+            console.error('Erro:', error);
+            seriesContainer.innerHTML = `<p class="text-light">Erro ao carregar os filtros. Tente novamente mais tarde.</p>`;
+        });
+}
+
+
+
+        // Função para pesquisar séries
+        function pesquisarSeries() {
+            const query = pesquisarInput.value.trim();
+            let url = `${BASE_URL}/search/tv?api_key=${API_KEY}&language=pt-BR&query=${query}`;
+
+            fetch(url)
+                .then(response => response.json())
+                .then(data => displaySeries(data.results));
+        }
+
+        // Inicializar a página
+        fetchPopularSeries().then(displaySeries);
+        // Atualizar favoritos na página
+        atualizarFavoritos();
+        // Vincular eventos aos elementos de filtro
+generoSelect.addEventListener('change', aplicarFiltros);
+popularidadeSelect.addEventListener('change', aplicarFiltros);
+
+    </script>
+</body>
+
+</html>

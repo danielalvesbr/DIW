@@ -1,0 +1,26 @@
+{
+    "usuarios": [
+      {
+        "id": 1,
+        "nome": "Daniel Alves Gonçalves",
+        "curso": "Ciência da Computação",
+        "email": "daniel@example.com",
+        "link_facebook": "https://www.facebook.com/profile.php?id=100009574484267&locale=pt_BR",
+        "link_instagram": "https://www.instagram.com/danielalves.br/",
+        "mini_biografia": "Este site foi desenvolvido por Daniel Alves Gonçalves, estudante de Ciência da Computação na PUC-MINAS. Apaixonado por tecnologia, Daniel busca criar interfaces intuitivas e agradáveis aos usuários.",
+        "foto": "assets/img/aluno.png"
+      }
+    ],
+    "series_favoritas": [
+      {
+        "id": 1,
+        "serie_id": 12345,
+        "usuario_id": 1
+      },
+      {
+        "id": 2,
+        "serie_id": 67890,
+        "usuario_id": 1
+      }
+    ]
+  }
